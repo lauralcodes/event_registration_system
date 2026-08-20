@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Alice",
+    "email": "alice@example.com",
+    "training": "Python Basics",
+    "date": "2026-08-20",
+    "registered_at": "2026-08-20T13:52:09.958836"
+  },
+  {
+    "name": "Bob",
+    "email": "bob@example.com",
+    "training": "Data Science",
+    "date": "2026-09-01",
+    "registered_at": "2026-08-20T13:55:00.513477"
+  },
+  {
+    "name": "Dana",
+    "email": "dana@example.com",
+    "training": "Python Basics",
+    "date": "2026-11-11",
+    "registered_at": "2026-08-20T14:01:38.928391"
+  }
+]
