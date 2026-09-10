@@ -42,23 +42,38 @@ def select_event():
     print("Select the event you want to register")
 
     while True:
-        event = input("Select the event (AI solutions for programming, Python programming, Java programming: ").strip().capitalize()
+        event = input("Select the event (AI solutions for programming, Python programming, Java programming: ").strip()
 
         if event == "AI solutions for programming":
-            print(event1)
             print("Registration successful")
+            print(
+                "- Event name: ", event1.name,"\n"
+                "- Event date: ", event1.date,"\n"
+                "- Event time: ", event1.time,"\n"
+                "- Event price: ", event1.price
+            )
             break
 
 
         elif event == "Python programming":
-            print(event2)
             print("Registration successful")
+            print(
+                "- Event name: ", event2.name,"\n"
+                "- Event date: ", event2.date,"\n"
+                "- Event time: ", event2.time,"\n"
+                "- Event price: ", event2.price
+            )
             break
 
 
         elif event == "Java programming":
-            print(event3)
             print("Registration successful")
+            print(
+                "- Event name: ", event3.name,"\n"
+                "- Event date: ", event3.date,"\n"
+                "- Event time: ", event3.time,"\n"
+                "- Event price: ", event3.price
+            )
             break
 
 
