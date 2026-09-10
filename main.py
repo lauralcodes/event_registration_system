@@ -5,35 +5,37 @@
 # user will get the confirmation of the booking
 
 from registration import Registration
-
+from event import Event
 
 events = { "AI solutions for programming",
            " Python programming",
            " Java programming"
 }
 
-EV01 = {
-        "eventId": "EV01",
-        "name": "AI solutions for programming",
-        "date": "27- 10-2026",
-        "time": "09.00-16.00",
-        "price": "1000 SEK"
-    }
+event1 = Event(
+    eventId="EV01",
+    name="AI solutions for programming",
+    date="27- 10-2026",
+    time="09.00-16.00",
+    price="1000 SEK"
+)
 
-EV02 = {
-        "eventId": "EV02",
-        "name": "Python programming",
-        "date": "17- 11-2026",
-        "time": "09.00-16.00",
-        "price": "1000 SEK"
-    }
-EV03 = {
-        "eventId": "EV03",
-        "name": "Java programming",
-        "date": "23- 09-2026",
-        "time": "09.00-16.00",
-        "price": "1000 SEK"
-    }
+
+event2 = Event(
+    eventId="EV02",
+    name="Python programming",
+    date="17- 11-2026",
+    time="09.00-16.00",
+    price="1000 SEK"
+)
+
+event3 = Event(
+    eventId="EV03",
+    name="Java programming",
+    date="27- 10-2026",
+    time="09.00-16.00",
+    price="1000 SEK"
+)
 
 #function
 def select_event():
@@ -43,19 +45,19 @@ def select_event():
         event = input("Select the event (AI solutions for programming, Python programming, Java programming: ").strip().capitalize()
 
         if event == "AI solutions for programming":
-            print(EV01)
+            print(event1)
             print("Registration successful")
             break
 
 
         elif event == "Python programming":
-            print(EV02)
+            print(event2)
             print("Registration successful")
             break
 
 
         elif event == "Java programming":
-            print(EV03)
+            print(event3)
             print("Registration successful")
             break
 
