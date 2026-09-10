@@ -7,7 +7,7 @@
 from registration import Registration
 from event import Event
 
-events = { "AI solutions for programming",
+events_list = { "AI solutions for programming",
            " Python programming",
            " Java programming"
 }
@@ -37,14 +37,17 @@ event3 = Event(
     price="1000 SEK"
 )
 
+events = [event1, event2, event3]
+
 #function
 def select_event():
     print("Select the event you want to register")
 
     while True:
-        event = input("Select the event (AI solutions for programming, Python programming, Java programming: ").strip()
+        print("Available events: ", events_list)
+        selected_event = input("Select the event:  ").strip()
 
-        if event == "AI solutions for programming":
+        if selected_event == "AI solutions for programming":
             print("Registration successful")
             print(
                 "- Event name: ", event1.name,"\n"
@@ -55,7 +58,7 @@ def select_event():
             break
 
 
-        elif event == "Python programming":
+        elif selected_event == "Python programming":
             print("Registration successful")
             print(
                 "- Event name: ", event2.name,"\n"
@@ -66,7 +69,7 @@ def select_event():
             break
 
 
-        elif event == "Java programming":
+        elif selected_event == "Java programming":
             print("Registration successful")
             print(
                 "- Event name: ", event3.name,"\n"
