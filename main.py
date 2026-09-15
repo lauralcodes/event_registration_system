@@ -4,8 +4,12 @@
 # when user go to an event, be able to choose date and time
 # user will get the confirmation of the booking
 
+import json
+
+from event_registration_system import registration
 from registration import Registration
 from event import Event
+
 
 events = { "AI solutions for programming",
            " Python programming",
@@ -37,25 +41,28 @@ event3 = Event(
     price="1000 SEK"
 )
 
+
+selected_event = "new_event"
 #function
 def select_event():
     print("Select the event you want to register")
 
     while True:
-        event = input("Select the event (AI solutions for programming, Python programming, Java programming: ").strip()
+        selected_event = input("Select the event (AI solutions for programming, Python programming, Java programming: ").strip()
 
-        if event == "AI solutions for programming":
+        if selected_event == "AI solutions for programming":
             print("Registration successful")
+
             print(
                 "- Event name: ", event1.name,"\n"
                 "- Event date: ", event1.date,"\n"
                 "- Event time: ", event1.time,"\n"
                 "- Event price: ", event1.price
             )
-            break
+            return event1
 
 
-        elif event == "Python programming":
+        elif selected_event == "Python programming":
             print("Registration successful")
             print(
                 "- Event name: ", event2.name,"\n"
@@ -63,10 +70,10 @@ def select_event():
                 "- Event time: ", event2.time,"\n"
                 "- Event price: ", event2.price
             )
-            break
+            return event2
 
 
-        elif event == "Java programming":
+        elif selected_event == "Java programming":
             print("Registration successful")
             print(
                 "- Event name: ", event3.name,"\n"
@@ -74,11 +81,13 @@ def select_event():
                 "- Event time: ", event3.time,"\n"
                 "- Event price: ", event3.price
             )
-            break
+            return event3
+
 
 
         else:
             print("Event does not exist.")
+
 
 # main program
 print(" --- Event registration system --- ")
@@ -100,10 +109,42 @@ else:
 
         print(" ----------------------------------- ")
 
-        select_event()
+        selected_event = select_event()
+
+        # create booking
+        if selected_event is not None:
+            booking = {
+                "name": registration.name,
+                "email": registration.email,
+                "eventId": selected_event.eventId,
+                "event": selected_event.name,
+                "date": selected_event.date,
+                "time": selected_event.time,
+                "price": selected_event.price
+            }
+
+        # Save booking to JSON.
+        # Before saving, create an empty list to containe bookings
+        # Before add the new booking, we need to check whether registrations.json already exists and read the booking_event[] inside it.
+        # Then add new booking and save everything back
+
+
+        try:
+            with open("registrations.json", "r") as file: #check whether registrations.json already exists and read the booking_event[] inside it.
+                booked_events = json.load(file) # If the file does exist, read JSON
+        except FileNotFoundError: # when we run the  program first time, there might be no registrations.json file. so If the file doesn't exist yet, just start with an empty list.
+            booked_events = []
+
+        booked_events.append(booking) # add new booking
+
+
+        with open("registrations.json", "w") as file: # Save the whole list to JSON
+            json.dump(booked_events, file, indent=4)
 
     else:
         print("Enter a valid e mail address.")
+
+
 
 
 

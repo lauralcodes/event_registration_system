@@ -1,0 +1,29 @@
+[
+    {
+        "name": "Kane",
+        "email": "ane@gmail.com",
+        "eventId": "EV03",
+        "event": "Java programming",
+        "date": "27- 10-2026",
+        "time": "09.00-16.00",
+        "price": "1000 SEK"
+    },
+    {
+        "name": "Lana",
+        "email": "lana@gmail.com",
+        "eventId": "EV01",
+        "event": "AI solutions for programming",
+        "date": "27- 10-2026",
+        "time": "09.00-16.00",
+        "price": "1000 SEK"
+    },
+    {
+        "name": "Raya",
+        "email": "raya@gmail.com",
+        "eventId": "EV02",
+        "event": "Python programming",
+        "date": "17- 11-2026",
+        "time": "09.00-16.00",
+        "price": "1000 SEK"
+    }
+]
