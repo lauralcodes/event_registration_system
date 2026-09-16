@@ -9,6 +9,9 @@ import json
 from event_registration_system import registration
 from registration import Registration
 from event import Event
+from database import load_registrations
+from database import save_registrations
+
 
 
 events = { "AI solutions for programming",
@@ -127,19 +130,13 @@ else:
         # Before saving, create an empty list to containe bookings
         # Before add the new booking, we need to check whether registrations.json already exists and read the booking_event[] inside it.
         # Then add new booking and save everything back
+        # Call the method from database.py and sve the result
 
+            save_registrations(booking) # all above steps handles inside this function in database.py
+            print("New event registered.")
 
-        try:
-            with open("registrations.json", "r") as file: #check whether registrations.json already exists and read the booking_event[] inside it.
-                booked_events = json.load(file) # If the file does exist, read JSON
-        except FileNotFoundError: # when we run the  program first time, there might be no registrations.json file. so If the file doesn't exist yet, just start with an empty list.
-            booked_events = []
-
-        booked_events.append(booking) # add new booking
-
-
-        with open("registrations.json", "w") as file: # Save the whole list to JSON
-            json.dump(booked_events, file, indent=4)
+        else:
+            print(" No registered event saved")
 
     else:
         print("Enter a valid e mail address.")
