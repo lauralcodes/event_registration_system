@@ -6,7 +6,6 @@
 
 import json
 
-from event_registration_system import registration
 from registration import Registration
 from event import Event
 from database import load_registrations
