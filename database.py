@@ -24,3 +24,5 @@ def save_registrations(booking  ):
 
     with open("registrations.json", "w") as file:  # Save the whole list to JSON
         json.dump(booked_events, file, indent=4)
+
+
