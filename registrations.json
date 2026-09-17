@@ -34,5 +34,14 @@
         "date": "27- 10-2026",
         "time": "09.00-16.00",
         "price": "1000 SEK"
+    },
+    {
+        "name": "Rosy",
+        "email": "rosy@gmail.com",
+        "eventId": "EV02",
+        "event": "Python programming",
+        "date": "17- 11-2026",
+        "time": "09.00-16.00",
+        "price": "1000 SEK"
     }
 ]
