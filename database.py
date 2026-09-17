@@ -26,3 +26,5 @@ def save_registrations(booking  ):
         json.dump(booked_events, file, indent=4)
 
 
+def get_all_registrations():
+    return load_registrations()

@@ -10,6 +10,8 @@ from registration import Registration
 from event import Event
 from database import load_registrations
 from database import save_registrations
+from database import get_all_registrations
+
 
 
 
@@ -133,6 +135,10 @@ else:
 
             save_registrations(booking) # all above steps handles inside this function in database.py
             print("New event registered.")
+
+            registrations = get_all_registrations() #testing that database layer works independently from the rest of the program.
+
+            print(registrations)
 
         else:
             print(" No registered event saved")
