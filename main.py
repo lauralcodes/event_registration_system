@@ -8,9 +8,7 @@ import json
 
 from registration import Registration
 from event import Event
-from database import load_registrations
-from database import save_registrations
-from database import get_all_registrations
+from database import save_registration
 
 
 
@@ -127,18 +125,11 @@ else:
                 "price": selected_event.price
             }
 
-        # Save booking to JSON.
-        # Before saving, create an empty list to containe bookings
-        # Before add the new booking, we need to check whether registrations.json already exists and read the booking_event[] inside it.
-        # Then add new booking and save everything back
-        # Call the method from database.py and sve the result
-
-            save_registrations(booking) # all above steps handles inside this function in database.py
+        # Call the method from database.py and save the result to the mysql db
+            save_registration(booking) # all above steps handles inside this function in database.py
             print("New event registered.")
 
-            registrations = get_all_registrations() #testing that database layer works independently from the rest of the program.
 
-            print(registrations)
 
         else:
             print(" No registered event saved")

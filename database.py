@@ -1,30 +1,46 @@
-import json
+import mysql.connector
 
-# Save booking to JSON.
-# Before saving, create an empty list to containe bookings
-# Before add the new booking, we need to check whether registrations.json already exists and read the booking_event[] inside it.
-# Then add new booking and save everything back
+# MySQL connection code
+def connect_to_database():
+    connection = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="ChariJAVA25S_DT",
+        database="event_registration"
+    )
+    return connection
 
-def load_registrations():
-    booked_events = []
-    try:
-        with open("registrations.json","r") as file:  # check whether registrations.json already exists and read the booking_event[] inside it.
-            booked_events = json.load(file)  # If the file does exist, read JSON
-    except FileNotFoundError:  # when we run the  program first time, there might be no registrations.json file. so If the file doesn't exist yet, just start with an empty list.
-        booked_events = []
+# save a booking into the registrations table.
+def save_registration(booking):
+    connection = connect_to_database()
 
-    return booked_events
+    cursor = connection.cursor() # the thing Python uses to send SQL commands to MySQL
 
+    # SQL command. Insert a new row into registrations, using a name, email and event ID. The %s values are placeholders
+    sql = """ 
+        INSERT INTO registrations (name, email, event_id)
+        VALUES (%s, %s, %s)
+    """
 
+    # takes the information from booking dictionary
+    values = (
+            booking["name"],
+            booking["email"],
+            booking["eventId"]
+    )
 
-def save_registrations(booking  ):
-    booked_events = load_registrations()
+    cursor.execute(sql, values) # Execute this SQL command using these values
 
-    booked_events.append (booking)  # add new booking
+    connection.commit() # It tells MySQL: Save this change permanently. Without the commit, the INSERT may not actually be saved.
 
-    with open("registrations.json", "w") as file:  # Save the whole list to JSON
-        json.dump(booked_events, file, indent=4)
+    # closes the cursor and database connection
+    cursor.close()
+    connection.close()
 
+# Test the MySQL connection
+# connection = connect_to_database()
 
-def get_all_registrations():
-    return load_registrations()
+# if connection.is_connected():
+    #print("MySQL connection successful!")
+
+# connection.close()
