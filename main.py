@@ -4,44 +4,11 @@
 # when user go to an event, be able to choose date and time
 # user will get the confirmation of the booking
 
-import json
 
 from registration import Registration
-from event import Event
-from database import save_registration
+from database import save_registration, get_events
 
-
-
-
-events = { "AI solutions for programming",
-           " Python programming",
-           " Java programming"
-}
-
-event1 = Event(
-    eventId="EV01",
-    name="AI solutions for programming",
-    date="27- 10-2026",
-    time="09.00-16.00",
-    price="1000 SEK"
-)
-
-
-event2 = Event(
-    eventId="EV02",
-    name="Python programming",
-    date="17- 11-2026",
-    time="09.00-16.00",
-    price="1000 SEK"
-)
-
-event3 = Event(
-    eventId="EV03",
-    name="Java programming",
-    date="27- 10-2026",
-    time="09.00-16.00",
-    price="1000 SEK"
-)
+events = get_events()
 
 
 selected_event = "new_event"
@@ -52,43 +19,19 @@ def select_event():
     while True:
         selected_event = input("Select the event (AI solutions for programming, Python programming, Java programming: ").strip()
 
-        if selected_event == "AI solutions for programming":
-            print("Registration successful")
-
-            print(
-                "- Event name: ", event1.name,"\n"
-                "- Event date: ", event1.date,"\n"
-                "- Event time: ", event1.time,"\n"
-                "- Event price: ", event1.price
-            )
-            return event1
-
-
-        elif selected_event == "Python programming":
-            print("Registration successful")
-            print(
-                "- Event name: ", event2.name,"\n"
-                "- Event date: ", event2.date,"\n"
-                "- Event time: ", event2.time,"\n"
-                "- Event price: ", event2.price
-            )
-            return event2
+        for event in events:
+            if selected_event == event.name:
+                print("Event selected")
+                print(
+                    "- Event name: ", event.name, "\n"
+                    "- Event date: ", event.date, "\n"
+                    "- Event time: ", event.time, "\n"
+                    "- Event price: ", event.price
+                    )
+                return event
 
 
-        elif selected_event == "Java programming":
-            print("Registration successful")
-            print(
-                "- Event name: ", event3.name,"\n"
-                "- Event date: ", event3.date,"\n"
-                "- Event time: ", event3.time,"\n"
-                "- Event price: ", event3.price
-            )
-            return event3
-
-
-
-        else:
-            print("Event does not exist.")
+        print("Event does not exist---------.")
 
 
 # main program
