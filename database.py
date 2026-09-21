@@ -1,4 +1,5 @@
 import mysql.connector
+from event import Event
 
 # MySQL connection code
 def connect_to_database():
@@ -36,6 +37,32 @@ def save_registration(booking):
     # closes the cursor and database connection
     cursor.close()
     connection.close()
+
+def get_events():
+    connection = connect_to_database()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM events")
+
+    rows = cursor.fetchall()
+
+    events = []
+
+    for row in rows:
+        event = Event(
+            eventId=row[0],
+            name=row[1],
+            date=row[2],
+            time=row[3],
+            price=row[4]
+        )
+        events.append(event)
+
+    cursor.close()
+    connection.close()
+
+    return events
+
+
 
 # Test the MySQL connection
 # connection = connect_to_database()
