@@ -14,24 +14,35 @@ events = get_events()
 selected_event = "new_event"
 #function
 def select_event():
-    print("Select the event you want to register")
+    print("\nAvailable events:")
+
+    for index, event in enumerate(events, start=1):
+        print(
+            f"{index}. {event.name} | "
+            f"Date: {event.date} | "
+            f"Time: {event.time} | "
+            f"Price: {event.price} SEK"
+        )
 
     while True:
-        selected_event = input("Select the event (AI solutions for programming, Python programming, Java programming: ").strip()
+        choice = input("\nSelect an event number: ").strip()
+        if choice.isdigit():
+            choice = int(choice)
 
-        for event in events:
-            if selected_event == event.name:
-                print("Event selected")
-                print(
-                    "- Event name: ", event.name, "\n"
-                    "- Event date: ", event.date, "\n"
-                    "- Event time: ", event.time, "\n"
-                    "- Event price: ", event.price
-                    )
-                return event
+            if 1 <= choice <= len(events):
+                selected_event = events[choice - 1]
+
+                print("\nEvent selected")
+                print("- Event name:", selected_event.name)
+                print("- Event date:", selected_event.date)
+                print("- Event time:", selected_event.time)
+                print("- Event price:", selected_event.price)
+
+                return selected_event
 
 
-        print("Event does not exist---------.")
+
+print("Invalid event selection. Please choose a valid event number.")
 
 
 # main program
@@ -70,7 +81,7 @@ else:
 
         # Call the method from database.py and save the result to the mysql db
             save_registration(booking) # all above steps handles inside this function in database.py
-            print("New event registered.")
+            print("Event registered.")
 
 
 
