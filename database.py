@@ -64,6 +64,7 @@ def get_events():
 
 
 
+
 # Test the MySQL connection
 # connection = connect_to_database()
 
