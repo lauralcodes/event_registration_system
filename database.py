@@ -87,6 +87,22 @@ def add_event(event):
     cursor.close()
     connection.close()
 
+def delete_event(event_id):
+    connection = connect_to_database()
+
+    cursor = connection.cursor()
+
+    sql = """
+        DELETE FROM events
+        WHERE event_id = %s
+    """
+
+    cursor.execute(sql, (event_id,))
+
+    connection.commit()
+
+    cursor.close()
+    connection.close()
 
 # Test the MySQL connection
 # connection = connect_to_database()
@@ -95,3 +111,8 @@ def add_event(event):
     #print("MySQL connection successful!")
 
 # connection.close()
+
+# temporary test code totest delete event function
+# if __name__ == "__main__":
+    # delete_event("EV05")
+    # print("Event deleted")
