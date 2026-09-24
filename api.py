@@ -1,5 +1,5 @@
-from flask import Flask, jsonify
-from database import get_events
+from flask import Flask, jsonify, request
+from database import get_events, add_event
 
 app = Flask(__name__)
 
@@ -21,6 +21,16 @@ def events():
 
     return jsonify(event_list)
 
+@app.post("/events")
+def create_event():
+    event = request.get_json()
+
+    add_event(event)
+
+    return jsonify({
+        "message": "Event created successfully",
+        "event": event
+    }), 201
 
 if __name__ == "__main__":
     app.run(debug=True)

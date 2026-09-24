@@ -62,7 +62,30 @@ def get_events():
 
     return events
 
+def add_event(event):
+    connection = connect_to_database()
 
+    cursor = connection.cursor()
+
+    sql = """
+        INSERT INTO events (event_id, name, date, time, price)
+        VALUES (%s, %s, %s, %s, %s)
+    """
+
+    values = (
+        event["event_id"],
+        event["name"],
+        event["date"],
+        event["time"],
+        event["price"]
+    )
+
+    cursor.execute(sql, values)
+
+    connection.commit()
+
+    cursor.close()
+    connection.close()
 
 
 # Test the MySQL connection
