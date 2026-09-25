@@ -32,11 +32,6 @@ def create_event():
             "error": "Request body must contain JSON"
         }), 400
 
-    # To check whether the event ID already exists
-    if event_exists(event["event_id"]):
-        return jsonify({
-             "error": "Event ID already exists"
-         }), 400
 
     # add validation to make sure all the required fields are sent, and validate the price, date and time
     error = validate_event(event)
@@ -45,7 +40,11 @@ def create_event():
             "error": error
         }), 400
 
-
+    # To check whether the event ID already exists
+    if event_exists(event["event_id"]):
+        return jsonify({
+            "error": "Event ID already exists"
+        }), 400
 
     add_event(event)
 
@@ -57,6 +56,12 @@ def create_event():
 
 @app.delete("/events/<event_id>")
 def remove_event(event_id):
+
+    if not event_exists(event_id):
+        return jsonify({
+            "error": "Event does not exist"
+        }), 404
+
     delete_event(event_id)
 
     return jsonify({
