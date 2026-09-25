@@ -62,6 +62,27 @@ def get_events():
 
     return events
 
+# to check whether the event ID already exists
+def event_exists(event_id):
+    connection = connect_to_database()
+
+    cursor = connection.cursor()
+
+    sql = """
+        SELECT event_id
+        FROM events
+        WHERE event_id = %s
+    """
+
+    cursor.execute(sql, (event_id,))
+
+    result = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    return result is not None
+
 def add_event(event):
     connection = connect_to_database()
 
