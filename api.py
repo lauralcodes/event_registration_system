@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from database import get_events, add_event, delete_event, event_exists
 from datetime import datetime
+import re
 
 app = Flask(__name__)
 
@@ -66,6 +67,21 @@ def create_event():
         return jsonify({
             "error": "Date must be in YYYY-MM-DD format"
         }), 400
+
+# Validate the event name
+    if not isinstance(event["name"], str) or not event["name"].strip(): #if the name is empty or contains only spaces.
+        return jsonify({
+            "error": "Event name cannot be empty"
+        }), 400
+
+# Validate the time
+    time_pattern = r"^\d{2}:\d{2}-\d{2}:\d{2}$"
+
+    if not re.match(time_pattern, event["time"]):
+        return jsonify({
+            "error": "Time must be in HH:MM-HH:MM format"
+        }), 400
+
 
     add_event(event)
 
