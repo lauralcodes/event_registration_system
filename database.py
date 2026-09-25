@@ -1,13 +1,17 @@
+import os
+from dotenv import load_dotenv
 import mysql.connector
 from event import Event
+
+load_dotenv()
 
 # MySQL connection code
 def connect_to_database():
     connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="ChariJAVA25S_DT",
-        database="event_registration"
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME")
     )
     return connection
 
