@@ -1,8 +1,6 @@
 from flask import Flask, jsonify, request
-from database import get_events, add_event, delete_event, event_exists
-from datetime import datetime
-import re
-from validation import validate_event
+from database import get_events, add_event, delete_event, event_exists, save_registration, registration_exists
+from validation import validate_event, validate_registration
 
 app = Flask(__name__)
 
@@ -65,6 +63,43 @@ def remove_event(event_id):
         "message": "Event deleted successfully",
         "event_id": event_id
     }), 200
+
+# Add the registration endpoint
+@app.post("/registrations")
+def create_registration():
+    registration = request.get_json()
+
+    if registration is None:
+        return jsonify({
+            "error": "Request body must contain JSON"
+        }), 400
+
+    error = validate_registration(registration)
+
+    if error:
+        return jsonify({
+            "error": error
+        }), 400
+
+    # check that the selected eventId actually exists before saving
+    if not event_exists(registration["eventId"]):
+        return jsonify({
+            "error": "Event does not exist"
+        }), 404
+
+    # validation to prevent duplicate registrations
+    if registration_exists(registration["email"], registration["eventId"]):
+        return jsonify({
+            "error": "User is already registered for this event"
+        }), 400
+
+    save_registration(registration)
+
+    return jsonify({
+        "message": "Registration created successfully",
+        "registration": registration
+    }), 201
+
 
 
 if __name__ == "__main__":

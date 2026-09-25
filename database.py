@@ -42,6 +42,25 @@ def save_registration(booking):
     cursor.close()
     connection.close()
 
+def registration_exists(email, event_id):
+    connection = connect_to_database()
+    cursor = connection.cursor()
+
+    sql = """
+        SELECT id
+        FROM registrations
+        WHERE email = %s AND event_id = %s
+    """
+
+    cursor.execute(sql, (email, event_id))
+    result = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    return result is not None
+
+
 def get_events():
     connection = connect_to_database()
     cursor = connection.cursor()
