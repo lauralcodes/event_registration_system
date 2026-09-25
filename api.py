@@ -25,6 +25,21 @@ def events():
 def create_event():
     event = request.get_json()
 
+    # add validation to make sure JSON was actually sent
+    if event is None:
+        return jsonify({
+            "error": "Request body must contain JSON"
+        }), 400
+
+    # add validation to make sure all the required fields are sent
+    required_fields = ["event_id", "name", "date", "time", "price"]
+
+    for field in required_fields:
+        if field not in event:
+            return jsonify({
+                "error": f"Missing required field: {field}"
+            }), 400
+
     add_event(event)
 
     return jsonify({
