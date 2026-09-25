@@ -40,7 +40,7 @@ def create_event():
                 "error": f"Missing required field: {field}"
             }), 400
 
-    # to check whether the event ID already exists
+    # To check whether the event ID already exists
     if event_exists(event["event_id"]):
         return jsonify({
             "error": "Event ID already exists"

@@ -62,7 +62,7 @@ def get_events():
 
     return events
 
-# to check whether the event ID already exists
+# To check whether the event ID already exists
 def event_exists(event_id):
     connection = connect_to_database()
 
