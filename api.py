@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from database import get_events, add_event, delete_event, event_exists
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -40,6 +41,7 @@ def create_event():
                 "error": f"Missing required field: {field}"
             }), 400
 
+
     # To check whether the event ID already exists
     if event_exists(event["event_id"]):
         return jsonify({
@@ -55,6 +57,14 @@ def create_event():
     if event["price"] < 0:
         return jsonify({
             "error": "Price cannot be negative"
+        }), 400
+
+    # Validate the event date
+    try:
+        datetime.strptime(event["date"], "%Y-%m-%d")
+    except ValueError:
+        return jsonify({
+            "error": "Date must be in YYYY-MM-DD format"
         }), 400
 
     add_event(event)
