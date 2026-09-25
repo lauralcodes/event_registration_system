@@ -44,17 +44,6 @@ The project also includes a Flask REST API for managing events.
 - HTTP status codes
 - API testing with cURL
 
-## Project Structure
-
-event_registration_system/
-├── main.py
-├── api.py
-├── database.py
-├── event.py
-├── registration.py
-├── validation.py
-└── README.md
-
 ## Future Development
 
 - Add registration API endpoints
