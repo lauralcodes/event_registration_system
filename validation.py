@@ -36,3 +36,24 @@ def validate_event(event):
         return "Time must be in HH:MM-HH:MM format"
 
     return None
+
+
+
+def validate_registration(registration):
+
+    required_fields = ["name", "email", "eventId"]
+
+    for field in required_fields:
+        if field not in registration:
+            return f"Missing required field: {field}"
+
+    if not registration["name"].strip():
+        return "Name cannot be empty"
+
+    if "@" not in registration["email"]:
+        return "Invalid email address"
+
+    if not registration["eventId"].strip():
+        return "Event ID cannot be empty"
+
+    return None
