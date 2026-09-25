@@ -57,6 +57,12 @@ def create_event():
 
 @app.delete("/events/<event_id>")
 def remove_event(event_id):
+
+    if not event_exists(event_id):
+        return jsonify({
+            "error": "Event does not exist"
+        }), 404
+
     delete_event(event_id)
 
     return jsonify({
