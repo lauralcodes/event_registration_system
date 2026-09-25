@@ -46,6 +46,17 @@ def create_event():
             "error": "Event ID already exists"
         }), 400
 
+    # validate the price
+    if not isinstance(event["price"], (int, float)):
+        return jsonify({
+            "error": "Price must be a number"
+        }), 400
+
+    if event["price"] < 0:
+        return jsonify({
+            "error": "Price cannot be negative"
+        }), 400
+
     add_event(event)
 
     return jsonify({
