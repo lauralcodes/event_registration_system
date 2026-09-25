@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from database import get_events, add_event, delete_event
+from database import get_events, add_event, delete_event, event_exists
 
 app = Flask(__name__)
 
@@ -39,6 +39,12 @@ def create_event():
             return jsonify({
                 "error": f"Missing required field: {field}"
             }), 400
+
+    # To check whether the event ID already exists
+    if event_exists(event["event_id"]):
+        return jsonify({
+            "error": "Event ID already exists"
+        }), 400
 
     add_event(event)
 
