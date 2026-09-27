@@ -1,11 +1,29 @@
 from flask import Flask, jsonify, request
+from flask_smorest import Api, Blueprint
 from database import get_events, add_event, delete_event, event_exists, save_registration, registration_exists
 from validation import validate_event, validate_registration
 
 app = Flask(__name__)
 
+# Configure Swagger
+app.config["API_TITLE"] = "Event Registration API"
+app.config["API_VERSION"] = "1.0"
+app.config["OPENAPI_VERSION"] = "3.0.3"
+app.config["OPENAPI_URL_PREFIX"] = "/"
+app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
-@app.get("/events")
+api = Api(app)
+
+# to group/container for related endpoints
+blp = Blueprint(
+    "events",
+    "events",
+    url_prefix="/events",
+    description="Event operations"
+)
+
+@blp.get("/")
 def events():
     events = get_events()
 
@@ -21,6 +39,8 @@ def events():
         })
 
     return jsonify(event_list)
+
+api.register_blueprint(blp) # to register the Blueprint with the API
 
 @app.post("/events")
 def create_event():
