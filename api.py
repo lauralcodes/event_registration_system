@@ -66,8 +66,7 @@ def create_event(event):
         "event": event
     }), 201
 
-
-@app.delete("/events/<event_id>")
+@blp.delete("/<event_id>")
 def remove_event(event_id):
 
     if not event_exists(event_id):
