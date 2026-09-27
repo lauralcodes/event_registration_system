@@ -7,3 +7,9 @@ class EventSchema(Schema):
     date = fields.Str()
     time = fields.Str()
     price = fields.Float()
+
+
+class RegistrationSchema(Schema):
+    name = fields.Str()
+    email = fields.Str()
+    eventId = fields.Str()
