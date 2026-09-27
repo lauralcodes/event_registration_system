@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_smorest import Api, Blueprint
 from database import get_events, add_event, delete_event, event_exists, save_registration, registration_exists
 from validation import validate_event, validate_registration
-from schemas import EventSchema
+from schemas import EventSchema, RegistrationSchema
 
 app = Flask(__name__)
 
@@ -81,15 +81,21 @@ def remove_event(event_id):
         "event_id": event_id
     }), 200
 
-# Add the registration endpoint
-@app.post("/registrations")
-def create_registration():
-    registration = request.get_json()
+api.register_blueprint(blp) # to register the event Blueprint with the API
 
-    if registration is None:
-        return jsonify({
-            "error": "Request body must contain JSON"
-        }), 400
+
+# create a separate blueprint for registrations
+registration_blp = Blueprint(
+    "registrations",
+    "registrations",
+    url_prefix="/registrations",
+    description="Registration operations"
+)
+
+# Add the registration endpoint
+@registration_blp.post("/")
+@registration_blp.arguments(RegistrationSchema)
+def create_registration(registration):
 
     error = validate_registration(registration)
 
@@ -117,8 +123,7 @@ def create_registration():
         "registration": registration
     }), 201
 
-
-api.register_blueprint(blp) # to register the Blueprint with the API
+api.register_blueprint(registration_blp)
 
 if __name__ == "__main__":
     app.run(debug=True)
