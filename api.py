@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_smorest import Api, Blueprint
 from database import get_events, add_event, delete_event, event_exists, save_registration, registration_exists
 from validation import validate_event, validate_registration
+from schemas import EventSchema
 
 app = Flask(__name__)
 
@@ -40,21 +41,13 @@ def events():
 
     return jsonify(event_list)
 
-api.register_blueprint(blp) # to register the Blueprint with the API
-
-@app.post("/events")
-def create_event():
-    event = request.get_json()
-
-    # add validation to make sure JSON was actually sent
-    if event is None:
-        return jsonify({
-            "error": "Request body must contain JSON"
-        }), 400
-
+@blp.post("/")
+@blp.arguments(EventSchema)
+def create_event(event):
 
     # add validation to make sure all the required fields are sent, and validate the price, date and time
     error = validate_event(event)
+
     if error:
         return jsonify({
             "error": error
@@ -126,6 +119,7 @@ def create_registration():
     }), 201
 
 
+api.register_blueprint(blp) # to register the Blueprint with the API
 
 if __name__ == "__main__":
     app.run(debug=True)
