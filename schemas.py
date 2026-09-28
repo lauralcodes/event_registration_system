@@ -1,15 +1,14 @@
 from marshmallow import Schema, fields
 
-
 class EventSchema(Schema):
-    event_id = fields.Str()
-    name = fields.Str()
-    date = fields.Str()
-    time = fields.Str()
-    price = fields.Float()
+    event_id = fields.Str(required=True)
+    name = fields.Str(required=True)
+    date = fields.Str(required=True)
+    time = fields.Str(required=True)
+    price = fields.Float(required=True)
 
 
 class RegistrationSchema(Schema):
-    name = fields.Str()
-    email = fields.Str()
-    eventId = fields.Str()
+    name = fields.Str(required=True)
+    email = fields.Str(required=True)
+    eventId = fields.Str(required=True)
