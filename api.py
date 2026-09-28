@@ -3,8 +3,16 @@ from flask_smorest import Api, Blueprint
 from database import get_events, add_event, delete_event, event_exists, save_registration, registration_exists
 from validation import validate_event, validate_registration
 from schemas import EventSchema, RegistrationSchema
+from flask_jwt_extended import JWTManager
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
+
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
+jwt = JWTManager(app)
 
 # Configure Swagger
 app.config["API_TITLE"] = "Event Registration API"
