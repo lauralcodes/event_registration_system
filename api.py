@@ -2,9 +2,17 @@ from flask import Flask, jsonify, request
 from flask_smorest import Api, Blueprint
 from database import get_events, add_event, delete_event, event_exists, save_registration, registration_exists
 from validation import validate_event, validate_registration
-from schemas import EventSchema, RegistrationSchema
+from schemas import EventSchema, RegistrationSchema, LoginSchema
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
+
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
+jwt = JWTManager(app)
 
 # Configure Swagger
 app.config["API_TITLE"] = "Event Registration API"
@@ -15,6 +23,15 @@ app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
 api = Api(app)
+
+api.spec.components.security_scheme(
+    "bearerAuth",
+    {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+    }
+)
 
 # to group/container for related endpoints
 blp = Blueprint(
@@ -40,9 +57,11 @@ def events():
         })
 
     return jsonify(event_list)
-
+# create events
 @blp.post("/")
 @blp.arguments(EventSchema)
+@blp.doc(security=[{"bearerAuth": []}])
+@jwt_required()
 def create_event(event):
 
     # add validation to make sure all the required fields are sent, and validate the price, date and time
@@ -123,7 +142,39 @@ def create_registration(registration):
         "registration": registration
     }), 201
 
-api.register_blueprint(registration_blp)
+api.register_blueprint(registration_blp) # to register the registration Blueprint with the API
+
+# Create a login endpoint
+
+login_blp = Blueprint(
+    "login",
+    "login",
+    url_prefix="/login",
+    description="Authentication"
+)
+
+@login_blp.post("/")
+@login_blp.arguments(LoginSchema)
+def login(data):
+
+    username = data.get("username")
+    password = data.get("password")
+
+    # Temporary user for testing
+    if username == "admin" and password == "pw123":
+
+        access_token = create_access_token(identity=username)
+
+        return jsonify({
+            "access_token": access_token
+        }), 200
+
+    return jsonify({
+        "error": "Invalid username or password"
+    }), 401
+
+
+api.register_blueprint(login_blp) # to register the login Blueprint with the API
 
 if __name__ == "__main__":
     app.run(debug=True)
