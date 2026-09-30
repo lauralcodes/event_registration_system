@@ -12,3 +12,8 @@ class RegistrationSchema(Schema):
     name = fields.Str(required=True)
     email = fields.Str(required=True)
     eventId = fields.Str(required=True)
+
+
+class LoginSchema(Schema):
+    username = fields.Str(required=True)
+    password = fields.Str(required=True)
